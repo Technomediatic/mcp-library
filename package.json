@@ -1,34 +1,16 @@
 {
   "name": "mcp-library",
   "version": "1.0.0",
-  "description": "MCP Library - Collection of Model Context Protocol servers for various integrations and tools",
+  "description": "Collection de serveurs MCP (Model Context Protocol) pour diverses intégrations et outils",
   "type": "module",
   "scripts": {
-    "create-repo": "node create-repo.js",
-    "install-all": "cd github-mcp && npm install",
-    "build-all": "cd github-mcp && npm run build",
-    "test-all": "cd github-mcp && npm test"
+    "create-repo": "node auto-create-repo.js"
   },
-  "keywords": [
-    "mcp",
-    "model-context-protocol",
-    "github",
-    "claude",
-    "ai",
-    "automation"
-  ],
+  "keywords": ["mcp", "model-context-protocol", "claude", "ai", "servers"],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^20.0.2",
     "dotenv": "^16.3.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yourusername/mcp-library.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/mcp-library/issues"
-  },
-  "homepage": "https://github.com/yourusername/mcp-library#readme"
+  }
 }
