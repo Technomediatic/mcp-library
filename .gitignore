@@ -1,4 +1,26 @@
+# Dependencies
 node_modules/
-.env
+*/node_modules/
 *.log
+
+# Environment variables
+.env
+*/.env
+
+# Build outputs
+*/build/
+*/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
