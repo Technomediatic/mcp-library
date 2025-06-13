@@ -1,24 +1,27 @@
 # 🚀 GitHub MCP Server
 
-Un serveur MCP (Model Context Protocol) pour l'automatisation GitHub avec Claude Desktop et VS Code, incluant des outils groupés pour réduire les demandes d'autorisation.
+> Model Context Protocol server for GitHub automation with optimized Claude Desktop integration
 
-## 📖 Tutoriel HTML complet et interactif !
+[![GitHub](https://img.shields.io/badge/GitHub-github--mcp-blue?logo=github)](https://github.com/Technomediatic/github-mcp)
+[![Node.js](https://img.shields.io/badge/Node.js-v18+-green?logo=node.js)](https://nodejs.org)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-orange)](https://modelcontextprotocol.io)
 
-**✨ NOUVEAU !** Un tutoriel HTML moderne avec design responsive et fonctionnalités avancées :
+## 🎯 Problème résolu
 
-```bash
-npm run tutorial
-```
+**Avant :** Claude Desktop demandait une autorisation pour chaque action GitHub, rendant l'expérience frustrante.
 
-**🎯 Fonctionnalités du tutoriel :**
-- 📱 **Design responsive** optimisé mobile/desktop
-- 🎨 **Interface moderne** avec animations fluides
-- 📋 **Boutons de copie** pour tous les exemples de code
-- 📊 **Statistiques animées** dans le pied de page
-- 🧭 **Navigation latérale** intelligente (desktop)
-- 📈 **Indicateur de progression** de lecture
-- ⬆️ **Bouton retour en haut** flottant
-- 🌙 **Mode sombre** automatique
+**Maintenant :** **Réduction de 67-90% des demandes d'autorisation** grâce aux outils groupés !
+
+## ✨ Fonctionnalités principales
+
+### 🔧 Outils MCP groupés (Optimisés pour Claude Desktop)
+
+| Outil | Avant | Maintenant | Gain |
+|-------|-------|------------|------|
+| `github_dashboard` | 3 autorisations | 1 autorisation | **-67%** |
+| `repository_analysis` | 5+ autorisations | 1 autorisation | **-80%** |
+| `quick_create_project` | 4 autorisations | 1 autorisation | **-75%** |
+| `batch_issue_operations` | n autorisations | 1 autorisation | **-90%+** |
 - ♿ **Accessibilité** complète (WCAG)
 
 **💻 Accès rapide :**
