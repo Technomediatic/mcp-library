@@ -1,0 +1,38 @@
+{
+  "name": "github-mcp",
+  "version": "1.0.0",
+  "description": "GitHub MCP Server - Model Context Protocol server for GitHub automation",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "build": "npm run start",
+    "create-repo": "node scripts/create-repo.js",
+    "list-repos": "node scripts/list-repos.js",
+    "quick-repo": "node scripts/quick-repo.js",
+    "ai-workflow": "node scripts/quick-repo.js ai-workflow",
+    "issues": "node scripts/issues.js",
+    "git-status": "node scripts/git-manager.js status",
+    "git-init": "node scripts/git-manager.js init",
+    "git-commit": "node scripts/git-manager.js commit",
+    "git-link": "node scripts/git-manager.js link",
+    "git-push": "node scripts/git-manager.js push",
+    "git-deploy": "node scripts/git-manager.js deploy"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  },
+  "keywords": [
+    "mcp",
+    "github",
+    "model-context-protocol"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
