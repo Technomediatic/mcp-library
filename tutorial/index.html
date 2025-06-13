@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoriel GitHub MCP Server - Guide Complet</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+    <meta name="description"
+        content="Guide complet pour créer un serveur Model Context Protocol (MCP) pour GitHub avec VS Code">
+    <meta name="author" content="GitHub MCP Tutorial">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+
+<body>
+    <div class="reading-progress"></div>
+    <div class="container">
+        <header>
+            <h1><i class="ri-rocket-2-line"></i> GitHub MCP Server</h1>
+            <p class="subtitle">Guide complet pour créer un serveur Model Context Protocol pour GitHub</p>
+        </header>
+
+        <div class="toc">
+            <h2><i class="ri-file-list-3-line"></i> Table des matières</h2>
+            <ul>
+                <li><a href="#introduction"><i class="ri-robot-line"></i> Introduction au MCP</a></li>
+                <li><a href="#prerequisites"><i class="ri-checkbox-multiple-line"></i> Prérequis</a></li>
+                <li><a href="#setup"><i class="ri-settings-3-line"></i> Configuration initiale</a></li>
+                <li><a href="#github-token"><i class="ri-key-2-line"></i> Token GitHub</a></li>
+                <li><a href="#implementation"><i class="ri-tools-line"></i> Implémentation du serveur</a></li>
+                <li><a href="#scripts"><i class="ri-file-code-line"></i> Scripts VS Code</a></li>
+                <li><a href="#usage"><i class="ri-cursor-line"></i> Utilisation</a></li>
+                <li><a href="#troubleshooting"><i class="ri-tools-fill"></i> Dépannage</a></li>
+            </ul>
+        </div>
+
+        <div id="introduction" class="section">
+            <h2><i class="ri-robot-line"></i> Introduction au Model Context Protocol (MCP)</h2>
+
+            <p>Le <strong>Model Context Protocol (MCP)</strong> est un protocole standardisé qui permet aux assistants
+                IA de se connecter à des services externes et d'effectuer des actions réelles.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="ri-settings-3-line"></i> Fonctionnalités</h4>
+                    <ul>
+                        <li>Créer des dépôts GitHub</li>
+                        <li>Gérer les issues</li>
+                        <li>Lister les repositories</li>
+                        <li>Intégration VS Code</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4><i class="ri-briefcase-line"></i> Avantages</h4>
+                    <ul>
+                        <li>Automatisation complète</li>
+                        <li>Interface intuitive</li>
+                        <li>Scripts réutilisables</li>
+                        <li>Documentation intégrée</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="prerequisites" class="section">
+            <h2><i class="ri-checkbox-multiple-line"></i> Prérequis</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Node.js</strong> - Version 18 ou supérieure
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Compte GitHub</strong> - Avec accès aux Personal Access Tokens
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>VS Code</strong> - Pour l'intégration et les tâches
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Git</strong> - Pour le clonage des dépôts
+            </div>
+        </div>
+
+        <div id="setup" class="section">
+            <h2><i class="ri-settings-3-line"></i> Configuration initiale</h2>
+
+            <h3>1. Structure du projet</h3>
+            <div class="file-tree">
+                mcp-servers/
+                ├── package.json
+                ├── README.md
+                ├── .env.example
+                ├── .gitignore
+                ├── setup.js
+                ├── test.js
+                ├── src/
+                │ └── index.js
+                ├── scripts/
+                │ ├── create-repo.js
+                │ ├── list-repos.js
+                │ ├── quick-repo.js
+                │ └── issues.js
+                ├── tutorial/
+                │ ├── index.html
+                │ ├── styles.css
+                │ └── script.js
+                └── .vscode/
+                └── tasks.json
+            </div>
+
+            <h3>2. Initialisation du projet</h3>
+            <div class="terminal">npm init -y</div>
+
+            <h3>3. Installation des dépendances</h3>
+            <div class="code-block" data-lang="bash">
+                npm install @modelcontextprotocol/sdk @octokit/rest dotenv
+                npm install --save-dev @types/node
+            </div>
+
+            <h3>4. Configuration package.json</h3>
+            <div class="code-block" data-lang="json">
+                {
+                "name": "mcp-github-server",
+                "version": "1.0.0",
+                "type": "module",
+                "scripts": {
+                "start": "node src/index.js",
+                "setup": "node setup.js",
+                "create-repo": "node scripts/create-repo.js",
+                "list-repos": "node scripts/list-repos.js",
+                "ai-workflow": "node scripts/quick-repo.js ai-workflow",
+                "issues": "node scripts/issues.js"
+                }
+                }
+            </div>
+        </div>
+
+        <div id="github-token" class="section">
+            <h2><i class="ri-key-2-line"></i> Configuration du Token GitHub</h2>
+
+            <div class="warning">
+                <strong>⚠️ Important :</strong> Ne jamais partager votre token GitHub personnel !
+            </div>
+
+            <h3>1. Création du token</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                Allez sur <strong>GitHub.com</strong> → <strong>Settings</strong> → <strong>Developer settings</strong>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Generate new token (classic)</strong>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Note :</strong> "MCP GitHub Server" ou "AI Workflow Token"
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Scopes requis :</strong>
+                <ul>
+                    <li>✅ <code>repo</code> - Accès complet aux dépôts</li>
+                    <li>✅ <code>user</code> - Informations utilisateur</li>
+                    <li>✅ <code>workflow</code> - GitHub Actions</li>
+                </ul>
+            </div>
+
+            <h3>2. Configuration locale</h3>
+            <div class="terminal">npm run setup</div>
+
+            <div class="info">
+                <strong>💡 Astuce :</strong> Le script de configuration vous guidera pour saisir votre token de manière
+                sécurisée.
+            </div>
+        </div>
+
+        <div id="implementation" class="section">
+            <h2><i class="ri-tools-line"></i> Implémentation du serveur MCP</h2>
+
+            <h3>1. Serveur principal (src/index.js)</h3>
+            <div class="code-block" data-lang="javascript">
+                import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+                import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+                import { Octokit } from '@octokit/rest';
+                import dotenv from 'dotenv';
+
+                dotenv.config();
+
+                const octokit = new Octokit({
+                auth: process.env.GITHUB_TOKEN,
+                });
+
+                const server = new Server({
+                name: 'github-mcp-server',
+                version: '1.0.0',
+                }, {
+                capabilities: { tools: {} },
+                });
+
+                // Outils disponibles
+                server.setRequestHandler(ListToolsRequestSchema, async () => {
+                return {
+                tools: [
+                {
+                name: 'create_repository',
+                description: 'Créer un nouveau dépôt GitHub',
+                inputSchema: {
+                type: 'object',
+                properties: {
+                name: { type: 'string', description: 'Nom du dépôt' },
+                private: { type: 'boolean', description: 'Dépôt privé' },
+                description: { type: 'string', description: 'Description' }
+                },
+                required: ['name']
+                }
+                }
+                // ... autres outils
+                ]
+                };
+                });
+            </div>
+
+            <h3>2. Script de configuration (setup.js)</h3>
+            <div class="code-block" data-lang="javascript">
+                import readline from 'readline';
+                import fs from 'fs';
+
+                const rl = readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+                });
+
+                rl.question('Entrez votre token GitHub : ', (token) => {
+                fs.writeFileSync('.env', `GITHUB_TOKEN=${token}`);
+                console.log('✅ Configuration sauvegardée !');
+                rl.close();
+                });
+            </div>
+        </div>
+
+        <div id="scripts" class="section">
+            <h2><i class="ri-file-code-line"></i> Scripts VS Code</h2>
+
+            <p>Pour une intégration parfaite avec VS Code, nous avons créé plusieurs scripts spécialisés :</p>
+
+            <h3>1. Création de dépôt interactive</h3>
+            <div class="terminal">npm run create-repo</div>
+
+            <h3>2. Création rapide du projet "ai-workflow"</h3>
+            <div class="terminal">npm run ai-workflow</div>
+
+            <h3>3. Liste des dépôts</h3>
+            <div class="terminal">npm run list-repos</div>
+
+            <h3>4. Gestion des issues</h3>
+            <div class="terminal">npm run issues</div>
+
+            <h3>5. Tâches VS Code</h3>
+            <p>Utilisez <code>Cmd+Shift+P</code> → "Tasks: Run Task" pour accéder aux tâches préconfigurées :</p>
+            <ul>
+                <li>🚀 Créer un dépôt GitHub</li>
+                <li>📚 Lister mes dépôts GitHub</li>
+                <li>⚡ Créer dépôt 'ai-workflow'</li>
+                <li>🎯 Gérer les issues GitHub</li>
+            </ul>
+        </div>
+
+        <div id="usage" class="section">
+            <h2><i class="ri-cursor-line"></i> Utilisation pratique</h2>
+
+            <h3>Exemple : Création du dépôt "ai-workflow"</h3>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Exécution :</strong>
+                <div class="terminal">npm run ai-workflow</div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Résultat :</strong>
+                <div class="success">
+                    ✅ Dépôt "ai-workflow" créé avec succès !<br>
+                    🔗 URL: https://github.com/username/ai-workflow<br>
+                    📋 Clone: git clone https://github.com/username/ai-workflow.git
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Clonage (optionnel) :</strong>
+                <div class="terminal">git clone https://github.com/username/ai-workflow.git</div>
+            </div>
+
+            <h3>Mode interactif complet</h3>
+            <div class="code-block" data-lang="bash">
+                # Lancement du mode interactif
+                npm run create-repo
+
+                # Le script vous demande :
+                📝 Nom du dépôt : mon-projet
+                📄 Description (optionnel) : Mon super projet
+                🔒 Dépôt privé ? (y/N) : y
+                📚 Créer un README initial ? (Y/n) : y
+
+                ⏳ Création du dépôt en cours...
+                ✅ Dépôt créé avec succès !
+            </div>
+        </div>
+
+        <div id="troubleshooting" class="section">
+            <h2><i class="ri-tools-fill"></i> Dépannage</h2>
+
+            <h3>Problèmes courants</h3>
+
+            <div class="warning">
+                <strong>❌ Erreur : GITHUB_TOKEN environment variable is required</strong><br>
+                <strong>Solution :</strong> Exécutez <code>npm run setup</code> pour configurer votre token.
+            </div>
+
+            <div class="warning">
+                <strong>❌ Erreur 422 : Repository already exists</strong><br>
+                <strong>Solution :</strong> Choisissez un nom de dépôt différent ou vérifiez vos dépôts existants avec
+                <code>npm run list-repos</code>.
+            </div>
+
+            <div class="warning">
+                <strong>❌ Erreur d'authentification</strong><br>
+                <strong>Solution :</strong> Vérifiez que votre token GitHub a les bons scopes (repo, user, workflow).
+            </div>
+
+            <h3>Tests de diagnostic</h3>
+            <div class="terminal">npm test</div>
+
+            <h3>Vérification de la configuration</h3>
+            <div class="code-block" data-lang="bash">
+                # Vérifier Node.js
+                node --version
+
+                # Vérifier les dépendances
+                npm list
+
+                # Test de connexion GitHub
+                npm run list-repos
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <h3><i class="ri-party-popper-line"></i> Félicitations !</h3>
+                <p>Vous avez maintenant un serveur MCP GitHub fonctionnel et intégré à VS Code.</p>
+                <p>Ce système vous permet de gérer GitHub directement depuis votre environnement de développement avec
+                    une automatisation complète.</p>
+
+                <div class="footer-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Scripts automatisés</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Sections détaillées</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Compatible VS Code</div>
+                    </div>
+                </div>
+
+                <div class="footer-buttons">
+                    <a href="https://github.com" class="button"><i class="ri-github-line"></i> Visitez GitHub</a>
+                    <a href="https://modelcontextprotocol.io" class="button"><i class="ri-book-open-line"></i> En savoir
+                        plus sur MCP</a>
+                    <a href="https://code.visualstudio.com" class="button"><i class="ri-code-line"></i> Télécharger VS
+                        Code</a>
+                </div>
+
+                <div class="footer-links">
+                    <a href="#introduction" class="footer-link"><i class="ri-book-2-line"></i> Introduction</a>
+                    <a href="#setup" class="footer-link"><i class="ri-settings-3-line"></i> Configuration</a>
+                    <a href="#usage" class="footer-link"><i class="ri-cursor-line"></i> Utilisation</a>
+                    <a href="#troubleshooting" class="footer-link"><i class="ri-tools-fill"></i> Dépannage</a>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.7;">
+                    Tutoriel créé avec ❤️ pour la communauté des développeurs
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <button class="back-to-top" onclick="scrollToTop()"><i class="ri-arrow-up-line"></i></button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
