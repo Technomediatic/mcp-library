@@ -12,6 +12,10 @@
 
 **Maintenant :** **Réduction de 67-90% des demandes d'autorisation** grâce aux outils groupés !
 
+## 📖 Documentation complète
+
+**[🎯 Guide d'utilisation Claude Desktop →](./GUIDE_CLAUDE_DESKTOP.md)**
+
 ## ✨ Fonctionnalités principales
 
 ### 🔧 Outils MCP groupés (Optimisés pour Claude Desktop)

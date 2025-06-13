@@ -1,4 +1,28 @@
+# Dependencies
 node_modules/
-.env
 *.log
+
+# Environment variables
+.env
+
+# Build outputs
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test files
+SUPPRESSION_MANUELLE.md
+TEST_16H.md

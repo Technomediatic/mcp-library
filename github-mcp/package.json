@@ -13,6 +13,7 @@
     "quick-repo": "node scripts/quick-repo.js",
     "ai-workflow": "node scripts/quick-repo.js ai-workflow",
     "issues": "node scripts/issues.js",
+    "cleanup-repos": "node scripts/cleanup-repos.js",
     "git-status": "node scripts/git-manager.js status",
     "git-init": "node scripts/git-manager.js init",
     "git-commit": "node scripts/git-manager.js commit",
